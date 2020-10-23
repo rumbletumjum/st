@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-static int borderpx = 2;
+static char *font = "monospace:size=10:antialias=true:autohint=true";
+static int borderpx = 10;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -93,44 +93,41 @@ char *termname = "st-256color";
  */
 unsigned int tabspaces = 8;
 
-/* Terminal colors (16 first used in escape sequence) */
+
 static const char *colorname[] = {
+
 	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
+	[0] = "#1d1f21", /* black   */
+	[1] = "#cc6666", /* red     */
+	[2] = "#b5bd68", /* green   */
+	[3] = "#f0c674", /* yellow  */
+	[4] = "#81a2be", /* blue    */
+	[5] = "#b294bb", /* magenta */
+	[6] = "#8abeb7", /* cyan    */
+	[7] = "#c5c8c6", /* white   */
 
-	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
+		/* 8 bright colors */
+	[8]  = "#666666", /* black   */
+	[9]  = "#d54e53", /* red     */
+	[10] = "#b9ca4a", /* green   */
+	[11] = "#e7c547", /* yellow  */
+	[12] = "#7aa6da", /* blue    */
+	[13] = "#c397d8", /* magenta */
+	[14] = "#70c0b1", /* cyan    */
+	[15] = "#eaeaea", /* white   */
 
-	[255] = 0,
-
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
+		/* special colors */
+	[256] = "#1d1f21", /* background */
+	[257] = "#c5c8c6", /* foreground */
 };
-
-
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 7;
-unsigned int defaultbg = 0;
-static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 257;
+unsigned int defaultbg = 256;
+static unsigned int defaultcs = 257;
+static unsigned int defaultrcs = 256;
 
 /*
  * Default shape of cursor
@@ -167,6 +164,41 @@ static unsigned int defaultattr = 11;
  * modifier, set to 0 to not use it.
  */
 static uint forcemousemod = ShiftMask;
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+	{ "font",         STRING,  &font },
+	{ "color0",       STRING,  &colorname[0] },
+	{ "color1",       STRING,  &colorname[1] },
+	{ "color2",       STRING,  &colorname[2] },
+	{ "color3",       STRING,  &colorname[3] },
+	{ "color4",       STRING,  &colorname[4] },
+	{ "color5",       STRING,  &colorname[5] },
+	{ "color6",       STRING,  &colorname[6] },
+	{ "color7",       STRING,  &colorname[7] },
+	{ "color8",       STRING,  &colorname[8] },
+	{ "color9",       STRING,  &colorname[9] },
+	{ "color10",      STRING,  &colorname[10] },
+	{ "color11",      STRING,  &colorname[11] },
+	{ "color12",      STRING,  &colorname[12] },
+	{ "color13",      STRING,  &colorname[13] },
+	{ "color14",      STRING,  &colorname[14] },
+	{ "color15",      STRING,  &colorname[15] },
+	{ "background",   STRING,  &colorname[256] },
+	{ "foreground",   STRING,  &colorname[257] },
+	{ "termname",     STRING,  &termname },
+	{ "shell",        STRING,  &shell },
+	{ "minlatency",   INTEGER, &minlatency },
+	{ "maxlatency",   INTEGER, &maxlatency },
+	{ "blinktimeout", INTEGER, &blinktimeout },
+	{ "bellvolume",   INTEGER, &bellvolume },
+	{ "tabspaces",    INTEGER, &tabspaces },
+	{ "borderpx",     INTEGER, &borderpx },
+	{ "cwscale",      FLOAT,   &cwscale },
+	{ "chscale",      FLOAT,   &chscale },
+};
 
 /*
  * Internal mouse shortcuts.
